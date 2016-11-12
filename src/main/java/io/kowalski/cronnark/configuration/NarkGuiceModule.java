@@ -5,8 +5,8 @@ import com.google.inject.name.Names;
 import com.hubspot.dropwizard.guicier.DropwizardAwareModule;
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.kowalski.cronnark.resources.TaskResource;
-import io.kowalski.cronnark.services.TrackedService;
+import io.kowalski.cronnark.resources.TrackedTaskResource;
+import io.kowalski.cronnark.services.TrackedTaskService;
 
 public class NarkGuiceModule extends DropwizardAwareModule<CronNarkConfig> {
 
@@ -23,11 +23,11 @@ public class NarkGuiceModule extends DropwizardAwareModule<CronNarkConfig> {
     }
 
     private void bindServices(final Binder binder) {
-        binder.bind(TrackedService.class);
+        binder.bind(TrackedTaskService.class);
     }
 
     private void bindResources(final Binder binder) {
-        binder.bind(TaskResource.class);
+        binder.bind(TrackedTaskResource.class);
     }
 
 }

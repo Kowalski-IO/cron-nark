@@ -1,7 +1,6 @@
 package io.kowalski.cronnark.models;
 
 import java.io.Serializable;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import lombok.Getter;
@@ -15,7 +14,7 @@ public class TrackedTask implements Serializable {
 
     private UUID id;
     private String name;
-    private ChronoUnit interval;
+    private Interval interval;
     private String endpoint;
 
 }

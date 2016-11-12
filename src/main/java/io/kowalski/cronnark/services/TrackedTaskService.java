@@ -18,17 +18,17 @@ import io.kowalski.cronnark.models.TrackedTask;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TrackedService {
+public class TrackedTaskService {
 
-    private static final String ALL_TASKS = "SELECT id, name, interval, slack FROM task";
-    private static final String TASK_FOR_ID = "SELECT id, name, interval, slack FROM task WHERE id = ?";
+    private static final String ALL_TASKS = "SELECT id, name, interval, slack AS endpoint FROM task";
+    private static final String TASK_FOR_ID = "SELECT id, name, interval, slack AS endpoint FROM task WHERE id = ?";
     private static final String INSERT_TASK = "INSERT INTO task (id, name, interval, slack) VALUES (?, ?, ?, ?)";
     private static final String DELETE_TASK = "DELETE FROM task WHERE id = ?";
 
     private final HikariDataSource hikari;
 
     @Inject
-    public TrackedService(final HikariDataSource hikari) {
+    public TrackedTaskService(final HikariDataSource hikari) {
         this.hikari = hikari;
     }
 
@@ -56,22 +56,25 @@ public class TrackedService {
         return Optional.ofNullable(task);
     }
 
-    public void saveTask(final TrackedTask task) {
-        final QueryRunner runner = new QueryRunner(hikari);
-        task.setId(UUID.randomUUID());
+    public Optional<UUID> saveTask(final TrackedTask task) {
+        UUID uuid = null;
         try {
-            runner.update(INSERT_TASK, task.getId(), task.getName(), task.getInterval(), task.getEndpoint());
+            final QueryRunner runner = new QueryRunner(hikari);
+            task.setId(UUID.randomUUID());
+            runner.update(INSERT_TASK, task.getId(), task.getName(), task.getInterval().name(), task.getEndpoint());
+            uuid = task.getId();
         } catch (final SQLException e) {
             log.error("Unable to insert new Task.", e);
         }
+        return Optional.ofNullable(uuid);
     }
 
-    public void deleteTask(final TrackedTask task) {
-        final QueryRunner runner = new QueryRunner(hikari);
+    public void deleteTask(final UUID id) {
         try {
-            runner.update(DELETE_TASK, task.getId());
+            final QueryRunner runner = new QueryRunner(hikari);
+            runner.update(DELETE_TASK, id);
         } catch (final SQLException e) {
-            log.error("Unable to delete task for id ".concat(task.getId().toString()), e);
+            log.error("Unable to delete task for id ".concat(id.toString()), e);
         }
     }
 
