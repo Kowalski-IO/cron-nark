@@ -1,0 +1,20 @@
+server:
+  rootPath: /api
+  applicationConnectors:
+    - type: http
+      port: 7474
+  gzip:
+    enabled: false
+
+secretKey: hellotwitch!
+
+jwtIssuer: cronnark.kowalski.io
+
+hikari: 
+  poolName: "PostgreSQL"
+  jdbcUrl: "jdbc:postgresql://127.0.0.1/cronnark"
+  username: "postgres"
+  password: "password"
+
+logging:
+  level: INFO
