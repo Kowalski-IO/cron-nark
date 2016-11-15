@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import io.kowalski.cronnark.filter.JWT;
 import io.kowalski.cronnark.models.TrackedTask;
 import io.kowalski.cronnark.services.TrackedTaskService;
 
@@ -33,12 +34,20 @@ public class TrackedTaskResource {
         return taskService.loadAllTasks();
     }
 
+    @GET
+    @Path("/{taskId}")
+    public void checkIn(final UUID id) {
+        taskService.checkIn(id);
+    }
+
+    @JWT
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Optional<UUID> createTask(final TrackedTask task) {
         return taskService.saveTask(task);
     }
 
+    @JWT
     @DELETE
     @Path("/{taskId}")
     public void deleteTask(@PathParam("taskId") final UUID id) {

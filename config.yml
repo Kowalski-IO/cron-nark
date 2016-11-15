@@ -7,7 +7,6 @@ server:
     enabled: false
 
 secretKey: hellotwitch!
-
 jwtIssuer: cronnark.kowalski.io
 
 hikari: 
