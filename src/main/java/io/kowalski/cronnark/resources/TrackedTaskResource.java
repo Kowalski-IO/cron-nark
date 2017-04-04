@@ -18,7 +18,7 @@ import io.kowalski.cronnark.filter.JWT;
 import io.kowalski.cronnark.models.TrackedTask;
 import io.kowalski.cronnark.services.TrackedTaskService;
 
-@Path("/task")
+@Path("/api/task")
 @Produces(MediaType.APPLICATION_JSON)
 public class TrackedTaskResource {
 
@@ -36,7 +36,7 @@ public class TrackedTaskResource {
 
     @GET
     @Path("/{taskId}")
-    public void checkIn(final UUID id) {
+    public void checkIn(@PathParam("taskId") final UUID id) {
         taskService.checkIn(id);
     }
 

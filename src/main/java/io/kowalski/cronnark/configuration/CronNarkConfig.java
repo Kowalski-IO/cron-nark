@@ -1,5 +1,7 @@
 package io.kowalski.cronnark.configuration;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -25,5 +27,10 @@ public class CronNarkConfig extends Configuration {
     @NotNull
     @JsonProperty("secretKey")
     private String secretKey;
+
+    @Valid
+    @NotNull
+    @JsonProperty("views")
+    private Map<String, Map<String, String>> viewRendererConfiguration;
 
 }

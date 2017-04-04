@@ -6,6 +6,7 @@ import com.hubspot.dropwizard.guicier.DropwizardAwareModule;
 import com.zaxxer.hikari.HikariDataSource;
 
 import io.kowalski.cronnark.filter.JWTFilter;
+import io.kowalski.cronnark.resources.StatusPageResource;
 import io.kowalski.cronnark.resources.TrackedTaskResource;
 import io.kowalski.cronnark.services.SlackService;
 import io.kowalski.cronnark.services.SnitchService;
@@ -38,6 +39,7 @@ public class NarkGuiceModule extends DropwizardAwareModule<CronNarkConfig> {
     }
 
     private void bindResources(final Binder binder) {
+        binder.bind(StatusPageResource.class);
         binder.bind(TrackedTaskResource.class);
     }
 
